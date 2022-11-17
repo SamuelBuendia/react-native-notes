@@ -19,12 +19,14 @@ export const styles = StyleSheet.create({
   },
   modalDetailText: {
     fontSize: 14,
-    color: '#212121'
+    color: '#212121',
+    fontFamily: 'LatoRegular'
   },
   selectedTask: {
     fontSize: 14,
     color: '#212121',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'LatoRegular',
     paddingTop: 20
   },
   modalButtonContainer: {

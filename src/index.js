@@ -1,15 +1,26 @@
-import { StatusBar } from 'expo-status-bar'
-import { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Button, FlatList, Modal } from 'react-native'
+import { useFonts } from 'expo-font'
+import { useState } from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ActivityIndicator
+} from 'react-native'
 import { AddItem, TaskItem, TaskList, TaskModal } from './components'
 
 export default function App() {
+  const [loaded] = useFonts({
+    LatoRegular: require('../assets/fonts/Lato-Regular.ttf'),
+    LatoBold: require('../assets/fonts/Lato-Bold.ttf'),
+    LatoItalic: require('../assets/fonts/Lato-Italic.ttf')
+  })
+
   const [task, setTask] = useState('')
+  const [showNotes, setShowNotes] = useState(true)
   const [taskList, setTaskList] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
-
-  useEffect(() => {}, [taskList])
 
   const orderTask = () => {
     setTaskList(
@@ -59,17 +70,50 @@ export default function App() {
 
   const onHandleChange = (text) => setTask(text)
 
+  const onHandleComplete = () => {
+    setShowNotes(!showNotes)
+  }
+
+  let content = (
+    <View style={styles.centerItems}>
+      <Text>Hola! Esta es Otra Vista</Text>
+    </View>
+  )
+
+  if (showNotes) {
+    content = (
+      <>
+        <AddItem task={task} addItem={addItem} changeText={onHandleChange} />
+        <TaskList taskList={taskList} renderItem={renderItem} />
+        <TaskModal
+          showModal={modalVisible}
+          selectedTask={selectedTask}
+          onHandleComplete={onHandleCompleteItem}
+          onHandleCancel={onHandleCancel}
+          onHandleDeleteItem={onHandleDeleteItem}
+        />
+      </>
+    )
+  }
+
+  if (!loaded) {
+    return (
+      <View style={styles.containerLoader}>
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
-      <AddItem task={task} addItem={addItem} changeText={onHandleChange} />
-      <TaskList taskList={taskList} renderItem={renderItem} />
-      <TaskModal
-        showModal={modalVisible}
-        selectedTask={selectedTask}
-        onHandleComplete={onHandleCompleteItem}
-        onHandleCancel={onHandleCancel}
-        onHandleDeleteItem={onHandleDeleteItem}
-      />
+      {content}
+      <View style={styles.btnChangeView}>
+        <Button
+          title="Change View"
+          color={'green'}
+          onPress={onHandleComplete}
+        />
+      </View>
     </View>
   )
 }
@@ -77,6 +121,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f1f1'
+    justifyContent: 'center'
+  },
+  containerLoader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  centerItems: {
+    alignItems: 'center',
+    justifyContent: "center",
+  },
+  btnChangeView: {
+    alignItems: 'center',
+    justifyContent: "center",
+    width: "100%",
+    marginTop: 8
   }
 })
