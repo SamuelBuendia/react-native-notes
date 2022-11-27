@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import colors from '../../constants/colors'
 
 export const styles = StyleSheet.create({
   inputContainer: {
@@ -10,6 +11,6 @@ export const styles = StyleSheet.create({
   input: {
     width: '80%',
     borderBottomWidth: 1,
-    borderBottomColor: 'black'
+    borderBottomColor: colors.black
   }
 })

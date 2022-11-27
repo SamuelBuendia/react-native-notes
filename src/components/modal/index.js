@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Modal, Text, View } from 'react-native'
+import colors from '../../constants/colors'
 import { styles } from './styles'
 
 const TaskModal = ({
@@ -27,8 +28,8 @@ const TaskModal = ({
           onPress={onHandleComplete}
         />
         <View style={styles.modalButtonContainer}>
-          <Button title="Cancel" color={'red'} onPress={onHandleCancel} />
-          <Button title="Delete" color={'red'} onPress={onHandleDeleteItem} />
+          <Button title="Cancel" color={colors.red} onPress={onHandleCancel} />
+          <Button title="Delete" color={colors.red} onPress={onHandleDeleteItem} />
         </View>
       </View>
     </Modal>
